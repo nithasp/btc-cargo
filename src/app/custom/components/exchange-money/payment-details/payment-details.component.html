@@ -1,0 +1,108 @@
+<div>
+  <div class="row justify-content-between">
+    <h4>รายการยอดเงิน (หยวน)</h4>
+    <div *ngIf="paymentMethod === 'alipay'" class="row">
+      <h4>ยอดเงินคืนที่มีอยู่</h4>
+      <h4 class="ml-3">{{ getTotalWalletsBalance() }}</h4>
+      <h4 class="ml-3">(หยวน)</h4>
+    </div>
+  </div>
+  <div *ngIf="paymentMethod === 'bank'">
+    <div class="row mt-3">
+      <div class="col">
+        <h4>{{ getAmountLabel(i) }}</h4>
+        <input type="text" class="form-control mt-2" [(ngModel)]="amount" />
+      </div>
+    </div>
+  </div>
+  <div *ngIf="paymentMethod === 'alipay'">
+    <div
+      *ngFor="let item of inputList; let i = index"
+      class="row mt-3 align-items-end"
+    >
+      <div class="col">
+        <h4>{{ getAmountLabel(i) }}</h4>
+        <input
+          type="text"
+          class="form-control mt-2"
+          [(ngModel)]="item.credit_amount"
+        />
+      </div>
+      <div class="col">
+        <h4>เลือกกระเป๋าเงินคืนหยวน</h4>
+        <div class="dropdown w-100 mt-2" dropdown>
+          <button
+            class="btn btn-secondary dropdown-toggle w-100"
+            type="button"
+            id="walletDropdownButton"
+            dropdownToggle
+          >
+            {{ getWalletDisplayName(item.wallet_id) }}
+          </button>
+          <div
+            aria-labelledby="walletDropdownButton"
+            *dropdownMenu
+            class="dropdown-menu"
+          >
+            <a
+              *ngFor="let wallet of wallets"
+              class="dropdown-item"
+              href="javascript:void(0)"
+              (click)="item.wallet_id = wallet.id"
+            >
+              {{ wallet.display_name }}</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <h4>ต้องการใช้ยอดเงินคืน</h4>
+        <input
+          type="text"
+          class="form-control mt-2"
+          [(ngModel)]="item.use_credit_amount"
+        />
+      </div>
+      <div class="col">
+        <button
+          *ngIf="i === 0"
+          class="btn btn-success w-100"
+          (click)="addItem()"
+        >
+          + เพิ่มยอด
+        </button>
+        <button
+          *ngIf="i !== 0"
+          class="btn btn-danger w-100"
+          (click)="removeItem(i)"
+        >
+          - ลบยอด
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-lg-12 form-group">
+      <label for="paymentDetailsRemark">หมายเหตุ (ถ้ามี)</label>
+      <textarea
+        class="form-control mt-2"
+        id="paymentDetailsRemark"
+        rows="3"
+        [(ngModel)]="remark"
+      ></textarea>
+    </div>
+  </div>
+  <div class="button-container">
+    <button class="btn btn-danger mr-2" type="button" (click)="onCancel()">
+      ยกเลิก
+    </button>
+    <button
+      class="btn btn-primary"
+      type="button"
+      (click)="handleNextFormState()"
+      [disabled]="verifyDisbledConfirmButton()"
+    >
+      ยืนยันสร้างรายการ
+    </button>
+  </div>
+</div>

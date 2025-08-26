@@ -1,0 +1,121 @@
+.card-header {
+  background-color: #ca3342fc;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 450px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.card-title {
+  color: #fff;
+  margin-bottom: 0;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.parcel-list-card {
+  margin: 0px 20px;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.create-button {
+  margin-top: 0.5rem;
+
+  @media (min-width: 450px) {
+    margin-top: 0;
+  }
+}
+
+.input-text {
+  width: 20%;
+}
+
+.dropdown-toggle.btn {
+  width: 130px;
+}
+
+.title-section {
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 1050px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+}
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  
+  @media (min-width: 1050px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+  }
+}
+
+.title-with-input {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+
+   @media (min-width: 650px) {
+    align-items: center;
+     flex-direction: row;
+   }
+}
+
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  background-color: lightgray;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.qc-section{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.video {
+  width: 100px;
+  height: 100px;
+  background-color: lightgray;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+td {
+  text-align: left;
+  white-space: break-spaces;
+  vertical-align: top !important;
+}

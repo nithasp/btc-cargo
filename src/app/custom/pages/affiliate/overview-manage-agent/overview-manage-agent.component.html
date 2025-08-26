@@ -1,0 +1,46 @@
+<section id="overview-manage-agent" *ngIf="isMainContentDisplay">
+  <div class="card container-card mb-0">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-title">ภาพรวมตัวแทน</h2>
+    </div>
+  </div>
+  <div class="overview-manage-section1 card container-card">
+    <div class="card-body">
+      <p>ค่าคอมมิชชัน</p>
+      <iframe
+        *ngIf="report1"
+        [src]="report1Url"
+        frameborder="0"
+        class="report"
+        onload="iFrameResize({checkOrigin: false, log: false}, this)"
+      >
+      </iframe>
+    </div>
+  </div>
+  <div class="overview-manage-section2 card container-card">
+    <div class="card-body">
+      <p>รายการตัวแทน</p>
+      <div *ngIf="report2">
+        <iframe
+          *ngIf="report2.data.report_type === 'dashboard'"
+          [src]="report2Url"
+          frameborder="0"
+          class="report"
+          onload="iFrameResize({checkOrigin: false, log: false}, this)"
+        >
+        </iframe>
+        <iframe
+          *ngIf="report2.data.report_type === 'question'"
+          [src]="report2Url"
+          frameborder="0"
+          class="report question"
+        >
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<affiliate-modal
+  (isMainContentDisplay)="setMainContentDisplay($event)"
+></affiliate-modal>

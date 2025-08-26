@@ -1,0 +1,183 @@
+<section>
+  <div class="card parcel-card">
+    <div class="card-header">
+      <h2 class="card-title">รายการพัสดุ</h2>
+      <a
+        class="btn btn-icon btn-3 btn-primary create-button"
+        type="button"
+        [routerLink]=""
+        (click)="addItem()"
+      >
+        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+        <span class="btn-inner--text">เพิ่มรายการพัสดุ</span>
+      </a>
+    </div>
+    <div class="card-body">
+      <h2 class="mb-3">รายการพัสดุ</h2>
+      <div class="overflow-x">
+        <table class="table align-items-center table-flush">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">เลขพัสดุ</th>
+              <th scope="col">ประเภทการขนส่ง</th>
+              <th scope="col">ตีลังไม้</th>
+              <th scope="col">ดูรูปถ่าย</th>
+              <th scope="col">QC</th>
+              <th class="min-200" scope="col">หมายเหตุ</th>
+              <th class="unset-min-width"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of items; let i = index">
+              <td class="text-center">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Tracking No"
+                  [(ngModel)]="item.parcelNo"
+                  maxlength="50"
+                />
+              </td>
+              <td class="text-center">
+                <div class="dropdown" dropdown>
+                  <button
+                    class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="shipping-dropdownMenuButton"
+                    dropdownToggle
+                  >
+                    {{ getDeliveryTypeName(item.deliveryTypeId) }}
+                  </button>
+                  <div
+                    aria-labelledby="shipping-dropdownMenuButton"
+                    *dropdownMenu
+                    class="dropdown-menu"
+                  >
+                    <a
+                      *ngFor="let type of deliveryTypes"
+                      class="dropdown-item"
+                      (click)="item.deliveryTypeId = type.id"
+                      >{{ type.description }}</a
+                    >
+                  </div>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="dropdown" dropdown>
+                  <button
+                    class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton"
+                    dropdownToggle
+                  >
+                    {{ item.boxType }}
+                  </button>
+                  <div
+                    aria-labelledby="dropdownMenuButton"
+                    *dropdownMenu
+                    class="dropdown-menu"
+                  >
+                    <a class="dropdown-item" (click)="item.boxType = 'ไม่ตี'"
+                      >ไม่ตี</a
+                    >
+                    <a class="dropdown-item" (click)="item.boxType = 'ตีเฟรม'"
+                      >ตีเฟรม</a
+                    >
+                    <a class="dropdown-item" (click)="item.boxType = 'ตีลังทึบ'"
+                      >ตีลังทึบ</a
+                    >
+                  </div>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="dropdown" dropdown>
+                  <button
+                    class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton"
+                    dropdownToggle
+                  >
+                    {{ item.pictureType }}
+                  </button>
+                  <div
+                    aria-labelledby="dropdownMenuButton"
+                    *dropdownMenu
+                    class="dropdown-menu"
+                  >
+                    <a
+                      class="dropdown-item"
+                      (click)="item.pictureType = 'ไม่ต้องการดูรูปถ่าย'"
+                      >ไม่ต้องการดู</a
+                    >
+                    <a
+                      class="dropdown-item"
+                      (click)="item.pictureType = 'ต้องการดูรูปถ่าย'"
+                      >ต้องการดูรูปถ่าย</a
+                    >
+                  </div>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="dropdown" dropdown>
+                  <button
+                    class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton"
+                    dropdownToggle
+                  >
+                    {{ item.qcType }}
+                  </button>
+                  <div
+                    aria-labelledby="dropdownMenuButton"
+                    *dropdownMenu
+                    class="dropdown-menu"
+                  >
+                    <a class="dropdown-item" (click)="item.qcType = 'ไม่ต้องการ QC'"
+                      >ไม่ต้องการ QC</a
+                    >
+                    <a class="dropdown-item" (click)="item.qcType = 'ต้องการ QC'">ต้องการ QC</a>
+                  </div>
+                </div>
+              </td>
+              <td class="text-center">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="หมายเหตุ"
+                  maxlength="150"
+                  [(ngModel)]="item.note"
+                />
+              </td>
+              <td>
+                <a
+                  role="button"
+                  href="javascript:void(0)"
+                  (click)="removeItem(i)"
+                >
+                  <i class="fas fa-trash-alt remove-button"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="parcel-card-footer">
+        <button
+          class="btn btn-danger mr-2 footer-button"
+          type="button"
+          (click)="onCancel()"
+        >
+          ยกเลิก
+        </button>
+        <button
+          class="btn btn-primary footer-button"
+          type="button"
+          (click)="onValidate()"
+          [disabled]="isDisabledSubmitButton()"
+        >
+          ยืนยันพัสดุ
+      </button>
+      </div>
+    </div>
+  </div>
+</section>

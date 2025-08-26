@@ -1,0 +1,190 @@
+<section>
+  <div class="card card-container">
+    <div class="card-header">
+      <h2 class="card-title">กระเป๋าเงินหยวน</h2>
+      <button
+        class="btn btn-icon btn-3 btn-primary"
+        (click)="displayAddModal()"
+      >
+        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+        <span class="btn-inner--text">สร้างกระเป๋าเงินใหม่</span>
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="overflow-x-auto">
+        <table class="table align-items-center table-flush">
+          <thead class="thead-light">
+            <tr>
+              <th>กระเป๋าเงินหยวน</th>
+              <th>วัน-เวลาที่สร้าง</th>
+              <th>ยอดเงินคืนหยวน</th>
+              <th>หมายเหตุ</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let wallet of wallets; let i = index">
+              <td>{{ wallet.name }}</td>
+              <td>{{ getDateTimeText(wallet.create_date) }}</td>
+              <td>{{ wallet.credit_amount }} หยวน</td>
+              <td>{{ wallet.remark || "-" }}</td>
+              <td>
+                <div>
+                  <a
+                    role="button"
+                    href="javascript:void(0)"
+                    (click)="displayEditModal(wallet.id)"
+                  >
+                    <i class="fas fa-edit action-icon mr-3"></i>
+                  </a>
+                  <a
+                    role="button"
+                    href="javascript:void(0)"
+                    (click)="displayConfirmDeleteModal(wallet.id)"
+                  >
+                    <i class="fas fa-trash-alt action-icon"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="btc-modal" *ngIf="isDisplayAddModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="col-lg-12">
+            <h3>สร้างกระเป๋าเงินใหม่</h3>
+          </div>
+        </div>
+        <div class="modal-body pb-0 pt-0">
+          <div class="col-lg-12 mb-3">
+            <h4>ชื่อกระเป๋าเงิน</h4>
+          </div>
+          <div class="col-lg-12">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{ 'border-danger': !isValidName('add') }"
+              [(ngModel)]="addWalletName"
+            />
+            <div
+              class="error-msg mt-2"
+              [ngClass]="{ 'text-danger': !isValidName('add') }"
+              *ngIf="!isValidName('add')"
+            >
+              <small
+                >ชื่อกระเป๋าเงินนี้มีอยู่แล้ว กรุณาใช้ชื่อกระเป๋าเงินอื่น</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-end">
+          <button
+            type="button"
+            class="btn btn-danger mr-2"
+            (click)="isDisplayAddModal = false"
+          >
+            ปิด
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            (click)="addWallet()"
+            [disabled]="isDiabledSubmitButton('add')"
+          >
+            ยืนยัน
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="btc-modal" *ngIf="isDisplayEditModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="col-lg-12">
+            <h3>แก้ไข {{ editingWallet.name }}</h3>
+          </div>
+        </div>
+        <div class="modal-body pb-0 pt-0">
+          <div class="col-lg-12 mb-3">
+            <h4>ชื่อกระเป๋าเงิน</h4>
+          </div>
+          <div class="col-lg-12">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{ 'border-danger': !isValidName('edit') }"
+              [(ngModel)]="editWalletName"
+            />
+            <div
+              class="error-msg mt-2"
+              [ngClass]="{ 'text-danger': !isValidName('edit') }"
+              *ngIf="!isValidName('edit')"
+            >
+              <small
+                >ชื่อกระเป๋าเงินนี้มีอยู่แล้ว กรุณาใช้ชื่อกระเป๋าเงินอื่น</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-end">
+          <button
+            type="button"
+            class="btn btn-danger mr-2"
+            (click)="isDisplayEditModal = false"
+          >
+            ปิด
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            (click)="editWallet()"
+            [disabled]="isDiabledSubmitButton('edit')"
+          >
+            ยืนยัน
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="btc-modal" *ngIf="isDisplayConfirmDeleteModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="col-lg-12">
+            <h3>ลบ {{ deletingWallet.name }}</h3>
+          </div>
+        </div>
+        <div class="modal-body pb-0 pt-0">
+          <div class="col-lg-12">
+            <h4>คุณต้องการจะลบ {{ deletingWallet.name }} ?</h4>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-end">
+          <button
+            type="button"
+            class="btn btn-danger mr-2"
+            (click)="isDisplayConfirmDeleteModal = false"
+          >
+            ปิด
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            (click)="deleteWallet()"
+          >
+            ยืนยัน
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,44 @@
+<div>
+  <div *ngIf="formState === 'selectAccount'">
+    <div>
+      <h4>กรุณาใส่รายละเอียดการส่งคำขอจ่ายผ่าน Alipay</h4>
+      <h4 class="text-danger">
+        หากต้องการฝากจ่ายมากกว่า 30,000 หยวน
+        กรุณาสั่งแยกออเดอร์และส่งมาจ่ายโดยให้แต่ละยอดไม่เกิน 30,000 หยวน
+      </h4>
+      <h4>
+        <a href="javascript:void()" target="_blank"> วิธีกดยอดฝากจ่าย </a>
+      </h4>
+      <h4>
+        <a href="javascript:void()" target="_blank"> ดูวิธียืนยันตัว Alipay </a>
+      </h4>
+      <h4 class="mt-3 mb-3">กรุณาเลือกบัญชีที่ส่งยอดเข้ามา</h4>
+      <div *ngFor="let account of accounts" class="custom-control custom-radio">
+        <input
+          type="radio"
+          id="customRadio-{{ account.id }}"
+          name="customRadio-{{ account.id }}"
+          class="custom-control-input"
+          [value]="account.id"
+          [(ngModel)]="selectedAccountId"
+        />
+        <label class="custom-control-label" for="customRadio-{{ account.id }}"
+          >{{ account.name }}
+        </label>
+      </div>
+    </div>
+    <div class="button-container">
+      <button class="btn btn-danger mr-2" type="button" (click)="onCancel()">
+        ยกเลิก
+      </button>
+      <button
+        class="btn btn-primary"
+        type="button"
+        (click)="handleNextFormState()"
+      >
+        ดำเนินการต่อ
+      </button>
+    </div>
+  </div>
+  <payment-details *ngIf="formState === 'paymentDetails'"> </payment-details>
+</div>

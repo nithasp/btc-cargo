@@ -1,0 +1,480 @@
+<section id="agent" *ngIf="isMainContentDisplay">
+  <div class="card container-card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-title">จัดการตัวแทน</h2>
+      <a class="btn btn-primary text-white" href="javascript:void(0)"
+        >+ สร้างรหัสผู้แนะนำ</a
+      >
+    </div>
+    <div class="card-body">
+      <div class="agent-section1 mb-5">
+        <h2 class="mb-3">สร้างรหัสผู้แนะนำ</h2>
+        <div class="wrapper">
+          <div class="info referral-code">
+            <label for="referral-code">รหัสผู้แนะนำ</label>
+            <input
+              type="text"
+              placeholder=""
+              id="referral-code"
+              class="form-control"
+              [(ngModel)]="affiliateCode"
+            />
+          </div>
+          <div class="info calculate-commission">
+            <label for="">การคำนวณค่าคอม</label>
+            <div class="btc-select-wrapper">
+              <select (change)="handleCommission($event.target.value)">
+                <option value="cost">เรททุน</option>
+                <option value="percentage">เปอร์เซนต์</option>
+              </select>
+            </div>
+          </div>
+          <div class="info selling-price">
+            <label for="selling-car-general">ราคาขาย</label>
+            <div class="wrap-input">
+              <div class="weight">
+                <div class="agent-input-wrapper">
+                  <label for="selling-car-general">ทั่วไป (รถ) น้ำหนัก</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-car-general"
+                    class="agent-input"
+                    [(ngModel)]="sellingWeightPrice.p"
+                  />
+                </div>
+                <div class="agent-input-wrapper">
+                  <label for="selling-car-thai-industrial"
+                    >มอก. (รถ) น้ำหนัก</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-car-thai-industrial"
+                    class="agent-input"
+                    [(ngModel)]="sellingWeightPrice.d"
+                  />
+                </div>
+                <div class="agent-input-wrapper">
+                  <label for="selling-car-food-and-drug"
+                    >อย. (รถ) น้ำหนัก</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-car-food-and-drug"
+                    class="agent-input"
+                    [(ngModel)]="sellingWeightPrice.hy"
+                  />
+                </div>
+                <div class="agent-input-wrapper">
+                  <label for="selling-car-brand">แบรนด์ (รถ) น้ำหนัก</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-car-brand"
+                    class="agent-input"
+                    [(ngModel)]="sellingWeightPrice.m"
+                  />
+                </div>
+                <div class="agent-input-wrapper">
+                  <label for="selling-ship-general"
+                    >ทั่วไป (เรือ) น้ำหนัก</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-ship-general"
+                    class="agent-input"
+                    [(ngModel)]="sellingWeightPrice.sp"
+                  />
+                </div>
+                <div class="agent-input-wrapper">
+                  <label for="selling-ship-thai-industrial-standard"
+                    >มอก. (เรือ) น้ำหนัก</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-ship-thai-industrial-standard"
+                    class="agent-input"
+                    [(ngModel)]="sellingWeightPrice.sd"
+                  />
+                </div>
+              </div>
+
+              <div class="volume">
+                <div class="agent-input-wrapper">
+                  <label for="volume-car-general">ทั่วไป (รถ) ปริมาตร</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="volume-car-general"
+                    class="agent-input"
+                    [(ngModel)]="sellingVolumePrice.p"
+                  />
+                </div>
+                <div class="agent-input-wrapper">
+                  <label for="volume-car-thai-industrial"
+                    >มอก. (รถ) ปริมาตร</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="volume-car-thai-industrial"
+                    class="agent-input"
+                    [(ngModel)]="sellingVolumePrice.d"
+                  />
+                </div>
+                <div class="agent-input-wrapper">
+                  <label for="volume-car-food-and-drug">อย. (รถ) ปริมาตร</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="volume-car-food-and-drug"
+                    class="agent-input"
+                    [(ngModel)]="sellingVolumePrice.hy"
+                  />
+                </div>
+                <div class="agent-input-wrapper">
+                  <label for="volume-car-brand">แบรนด์ (รถ) ปริมาตร</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="volume-car-brand"
+                    class="agent-input"
+                    [(ngModel)]="sellingVolumePrice.m"
+                  />
+                </div>
+                <div class="agent-input-wrapper">
+                  <label for="volume-ship-general">ทั่วไป (เรือ) ปริมาตร</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="volume-ship-general"
+                    class="agent-input"
+                    [(ngModel)]="sellingVolumePrice.sp"
+                  />
+                </div>
+                <div class="agent-input-wrapper">
+                  <label for="volume-ship-thai-industrial-standard"
+                    >มอก. (เรือ) ปริมาตร</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="volume-ship-thai-industrial-standard"
+                    class="agent-input"
+                    [(ngModel)]="sellingVolumePrice.sd"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="info cost-price">
+            <label for="cost-car-general">ราคาทุน</label>
+            <div class="wrap-input">
+              <div class="weight">
+                <div class="agent-input-wrapper readonly">
+                  <label for="costing-car-general">ทั่วไป (รถ) น้ำหนัก</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="costing-car-general"
+                    class="form-control"
+                    [(ngModel)]="costingWeightPrice.p"
+                    readonly
+                  />
+                </div>
+                <div class="agent-input-wrapper readonly">
+                  <label for="costing-car-thai-industrial"
+                    >มอก. (รถ) น้ำหนัก</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="costing-car-thai-industrial"
+                    class="form-control"
+                    [(ngModel)]="costingWeightPrice.d"
+                    readonly
+                  />
+                </div>
+                <div class="agent-input-wrapper readonly">
+                  <label for="costing-car-food-and-drug"
+                    >อย. (รถ) น้ำหนัก</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="costing-car-food-and-drug"
+                    class="form-control"
+                    [(ngModel)]="costingWeightPrice.hy"
+                    readonly
+                  />
+                </div>
+                <div class="agent-input-wrapper readonly">
+                  <label for="costing-car-brand">แบรนด์ (รถ) น้ำหนัก</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="costing-car-brand"
+                    class="form-control"
+                    [(ngModel)]="costingWeightPrice.m"
+                    readonly
+                  />
+                </div>
+                <div class="agent-input-wrapper readonly">
+                  <label for="costing-ship-general"
+                    >ทั่วไป (เรือ) น้ำหนัก</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="costing-ship-general"
+                    class="form-control"
+                    [(ngModel)]="costingWeightPrice.sp"
+                    readonly
+                  />
+                </div>
+                <div class="agent-input-wrapper readonly">
+                  <label for="costing-ship-thai-industrial-standard"
+                    >มอก. (เรือ) น้ำหนัก</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="costing-ship-thai-industrial-standard"
+                    class="form-control"
+                    [(ngModel)]="costingWeightPrice.sd"
+                    readonly
+                  />
+                </div>
+              </div>
+
+              <div class="volume">
+                <div class="agent-input-wrapper readonly">
+                  <label for="selling-car-general">ทั่วไป (รถ) ปริมาตร</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-car-general"
+                    class="form-control"
+                    [(ngModel)]="costingVolumePrice.p"
+                    readonly
+                  />
+                </div>
+                <div class="agent-input-wrapper readonly">
+                  <label for="selling-car-thai-industrial"
+                    >มอก. (รถ) ปริมาตร</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-car-thai-industrial"
+                    class="form-control"
+                    [(ngModel)]="costingVolumePrice.d"
+                    readonly
+                  />
+                </div>
+                <div class="agent-input-wrapper readonly">
+                  <label for="selling-car-food-and-drug"
+                    >อย. (รถ) ปริมาตร</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-car-food-and-drug"
+                    class="form-control"
+                    [(ngModel)]="costingVolumePrice.hy"
+                    readonly
+                  />
+                </div>
+                <div class="agent-input-wrapper readonly">
+                  <label for="selling-car-brand">แบรนด์ (รถ) ปริมาตร</label>
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-car-brand"
+                    class="form-control"
+                    [(ngModel)]="costingVolumePrice.m"
+                    readonly
+                  />
+                </div>
+                <div class="agent-input-wrapper readonly">
+                  <label for="selling-ship-general"
+                    >ทั่วไป (เรือ) ปริมาตร</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-ship-general"
+                    class="form-control"
+                    [(ngModel)]="costingVolumePrice.sp"
+                    readonly
+                  />
+                </div>
+                <div class="agent-input-wrapper readonly">
+                  <label for="selling-ship-thai-industrial-standard"
+                    >มอก. (เรือ) ปริมาตร</label
+                  >
+                  <input
+                    type="text"
+                    placeholder=""
+                    id="selling-ship-thai-industrial-standard"
+                    class="form-control"
+                    [(ngModel)]="costingVolumePrice.sd"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="agent-section2 mb-5">
+        <h2 class="mb-3">รายละเอียดผู้ดูแล</h2>
+        <div class="wrapper">
+          <div class="info btc-password">
+            <label for="btc-password">รหัสBTC</label>
+            <input
+              type="text"
+              placeholder=""
+              id="btc-password"
+              class="form-control"
+              [(ngModel)]="btcCode"
+            />
+          </div>
+          <div class="info name">
+            <label for="name">ชื่อ-นามสกุล</label>
+            <input
+              type="text"
+              placeholder=""
+              id="name"
+              class="form-control"
+              [(ngModel)]="name"
+            />
+          </div>
+          <div class="info id-number">
+            <label for="id-number">เลขประจำตัวประชาชน</label>
+            <input
+              type="text"
+              placeholder=""
+              id="id-number"
+              class="form-control"
+              [(ngModel)]="vat"
+            />
+          </div>
+          <div class="info telephone">
+            <label for="telephone">โทรศัพท์</label>
+            <input
+              type="text"
+              placeholder=""
+              id="telephone"
+              class="form-control"
+              [(ngModel)]="phoneNumber"
+            />
+          </div>
+          <div class="info email">
+            <label for="email">อีเมล์</label>
+            <input
+              type="text"
+              placeholder=""
+              id="email"
+              class="form-control"
+              [(ngModel)]="email"
+            />
+          </div>
+          <div class="info address mt-3">
+            <label for="address1">ที่อยู่</label>
+            <div class="wrap-input-address">
+              <input
+                type="text"
+                placeholder="บ้านเลขที่ ซอย ถนน ฯลฯ"
+                id="address1"
+                class="form-control"
+                [(ngModel)]="addressLine1"
+              />
+              <select-address
+                *ngIf="isDisplaySelectAddress"
+                [id]="'select-address-agent'"
+                [address]="addressLine2"
+                (addressSelected)="onNewAddressSelected($event)"
+              ></select-address>
+            </div>
+          </div>
+        </div>
+        <div class="wrap-btn text-right mt-4">
+          <button class="btn btn-success" (click)="createAffiliate()">
+            {{ id ? "อัพเดทข้อมูล" : "ยืนยันการสร้าง" }}
+          </button>
+        </div>
+      </div>
+      <div class="agent-section3">
+        <div class="wrapper-table overflow-x-auto">
+          <table
+            class="table align-items-center"
+            *ngIf="teamMembers.length > 0"
+          >
+            <thead class="thead-light">
+              <tr>
+                <th rowspan="2">รหัสผู้แนะนำ</th>
+                <th colspan="6">เรทขาย (น้ำหนัก)</th>
+                <th colspan="6">เรทขาย (ปริมาตร)</th>
+                <th rowspan="2">แก้ไข/ลบ</th>
+              </tr>
+              <tr>
+                <!-- Cost Price -->
+                <th>ทั่วไป (รถ)</th>
+                <th>มอก. (รถ)</th>
+                <th>อย. (รถ)</th>
+                <th>แบรนด์. (รถ)</th>
+                <th>ทั่วไป. (เรือ)</th>
+                <th>มอก. (เรือ)</th>
+                <!-- Shipping Price -->
+                <th>ทั่วไป (รถ)</th>
+                <th>มอก. (รถ)</th>
+                <th>อย. (รถ)</th>
+                <th>แบรนด์. (รถ)</th>
+                <th>ทั่วไป. (เรือ)</th>
+                <th>มอก. (เรือ)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="item" *ngFor="let item of teamMembers">
+                <td>{{ item.affiliate_code }}</td>
+
+                <!-- Selling Weight Price -->
+                <td>{{ item.selling_id.weight_price.p }}</td>
+                <td>{{ item.selling_id.weight_price.d }}</td>
+                <td>{{ item.selling_id.weight_price.hy }}</td>
+                <td>{{ item.selling_id.weight_price.m }}</td>
+                <td>{{ item.selling_id.weight_price.sp }}</td>
+                <td>{{ item.selling_id.weight_price.sd }}</td>
+                <!-- Selling Volume Price -->
+                <td>{{ item.selling_id.volume_price.p }}</td>
+                <td>{{ item.selling_id.volume_price.d }}</td>
+                <td>{{ item.selling_id.volume_price.hy }}</td>
+                <td>{{ item.selling_id.volume_price.m }}</td>
+                <td>{{ item.selling_id.volume_price.sp }}</td>
+                <td>{{ item.selling_id.volume_price.sd }}</td>
+
+                <td>
+                  <button
+                    class="btn bg-gray text-white"
+                    (click)="editSellingPrice(item)"
+                  >
+                    แก้ไข
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<affiliate-modal
+  (isMainContentDisplay)="setMainContentDisplay($event)"
+></affiliate-modal>

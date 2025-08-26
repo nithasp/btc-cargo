@@ -1,0 +1,303 @@
+<section id="transport-payment">
+  <div class="card container-card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h2 class="card-title">สินค้ารอชำระค่าขนส่ง</h2>
+      <a
+        class="btn btn-primary text-white"
+        href="javascript:void(0)"
+        (click)="isNoPendingPaymentChecked()"
+        >+ สร้างรายการชำระเงิน</a
+      >
+    </div>
+    <div class="card-body" *ngIf="items.length === 0">
+      <h3 class="text-center p-3">ไม่มีรายการสินค้ารอชำระค่าขนส่ง</h3>
+    </div>
+    <div class="card-body" *ngIf="items.length > 0">
+      <div
+        class="container-filter mb-3 d-flex align-items-center justify-content-between"
+      >
+        <h2>รายการรอการชำระเงิน</h2>
+        <div class="d-flex wrap-input">
+          <div class="d-flex align-items-center mr-3 item-input">
+            <span class="text-nowrap mr-3 title">เลขพัสดุ</span>
+            <input type="text" class="form-control" placeholder="" />
+          </div>
+          <div class="d-flex align-items-center mr-3 item-input">
+            <span class="export-date text-nowrap mr-3 title"
+              >วันที่ออกจากจีน
+            </span>
+            <div
+              class="input-group input-group-alternative input-group-birthdate"
+            >
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><i class="ni ni-calendar-grid-58"></i
+                ></span>
+              </div>
+
+              <input
+                type="string"
+                id="input-birthdate"
+                placeholder=""
+                class="form-control"
+                bsDatepicker
+                [bsValue]="bsValue"
+                [bsConfig]="{
+                  isAnimated: true,
+                  containerClass: 'theme-red',
+                  dateInputFormat: 'YYYY-MM-DD'
+                }"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-header bg-white">
+        <h2 class="card-title text-dark">รายการพัสดุ</h2>
+      </div>
+      <div class="wrapper-table overflow-x-auto">
+        <table class="table align-items-center">
+          <thead class="thead-light">
+            <tr>
+              <th>
+                <input type="checkbox" (click)="checkAllBox($event.target)" />
+              </th>
+              <th>เลขพัสดุ</th>
+              <th>น้ำหนัก</th>
+              <th>ปริมาตร</th>
+              <th>ค่าขนส่ง</th>
+              <th>ค่าตีลังไม้</th>
+              <th>ค่า QC</th>
+              <th>ค่าใช้จ่ายอื่นๆ</th>
+              <th>ค่าจัดเก็บพัสดุ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="item" *ngFor="let item of items; let i = index">
+              <td class="td-checkbox">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="item.is_checked"
+                  (click)="checkBox(item)"
+                />
+              </td>
+              <td class="td-shopping-serial">
+                <div>
+                  <p>
+                    เลขตู้
+                    <span>{{
+                      renderText(item.lot?.shipping_lot_display?.name)
+                    }}</span>
+                  </p>
+                  <p>
+                    เลขพัสดุ
+                    <span class="text-primary bold">{{
+                      renderText(item.lot?.shopping_serial)
+                    }}</span>
+                  </p>
+                  <p>
+                    จำนวนพัสดุ
+                    {{ renderText(item.lot?.quantity) }} ชิ้น
+                  </p>
+                </div>
+              </td>
+              <td class="td-total-weight">
+                <span>น้ำหนักรวม</span>
+                <span class="block"></span>
+                <span>
+                  {{ renderTotalWeight(item.lot?.total_weight) }} กก.</span
+                >
+              </td>
+              <td class="td-total-volume">
+                <div>
+                  <div class="space-3-columns">
+                    <span>กว้าง</span>
+                    <span>{{ renderText(item.lot?.width) }}</span>
+                    <span>ซม.</span>
+                  </div>
+                  <div class="space-3-columns">
+                    <span>ยาว</span>
+                    <span>{{ renderText(item.lot?.depth) }}</span>
+                    <span>ซม.</span>
+                  </div>
+                  <div class="space-3-columns">
+                    <span>สูง</span>
+                    <span>{{ renderText(item.lot?.height) }}</span>
+                    <span>ซม.</span>
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <span>ปริมาตรรวม</span>
+                  <span class="block"></span>
+                  <span class="mx-2">
+                    {{ renderText(item.lot?.total_volume).toFixed(4) }}
+                  </span>
+                  <span>ลบ.ม.</span>
+                </div>
+              </td>
+              <td class="td-delivery-cost">
+                <span class="text-danger mr-2">
+                  {{ renderText(item.lot?.delivery_cost) }}
+                </span>
+                <span>บาท</span>
+              </td>
+              <td class="td-packing-cost">
+                <span class="mr-2">
+                  {{ renderText(item.lot?.packing_cost) }}</span
+                >
+                <span>บาท</span>
+              </td>
+              <td class="td-qc-cost">
+                <span class="mr-2"> {{ renderText(item.lot?.qc_cost) }}</span>
+                <span>บาท</span>
+              </td>
+              <td class="td-other-cost">
+                <span class="text-danger mr-2">
+                  {{ renderText(item.lot?.other_cost).toFixed(2) }}
+                </span>
+                <span>บาท</span>
+              </td>
+              <td class="td-storage-cost">
+                <span class="mr-2">
+                  {{ renderText(item.lot?.storage_cost) }}</span
+                >
+                <span>บาท</span>
+              </td>
+            </tr>
+          </tbody>
+          <thead class="t-footer">
+            <tr>
+              <th colspan="2">รวมจำนวนพัสดุ {{ totalQuantity }} ชิ้น</th>
+              <th>
+                น้ำหนักรวม
+                <br />
+                {{ totalWeight }} กก.
+              </th>
+              <th>
+                <p>
+                  ปริมาตรรวม<br />
+                  {{ totalVolume }} ลบ.ม.
+                </p>
+              </th>
+              <th class="total-cost">
+                <div>
+                  <p>
+                    ค่าขนส่ง<br />
+                    {{ totalDeliveryCost }} บาท
+                  </p>
+                </div>
+              </th>
+              <th>
+                <p>
+                  ค่าตีลังไม้<br />
+                  {{ totalPackingCost }} บาท
+                </p>
+              </th>
+              <th>
+                <p>
+                  ค่า QC<br />
+                  {{ renderText(totalQcCost) }} บาท
+                </p>
+              </th>
+              <th>
+                <p>
+                  ค่าใช้จ่ายอื่นๆ<br />
+                  {{ totalOtherCost }} บาท
+                </p>
+              </th>
+              <th>
+                <p>
+                  ค่าจัดเก็บพัสดุ<br />
+                  {{ totalStorageCost }} บาท
+                </p>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="d-flex justify-content-end mt-4">
+        <ul class="pagination">
+          <li
+            class="page-item"
+            [ngClass]="{
+              disabled: pagination && pagination.page === pagination.startPage
+            }"
+          >
+            <a
+              class="page-link"
+              (click)="handleChangePage(pagination.page - 1)"
+            >
+              <i class="fa fa-angle-left"></i>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <li
+            *ngFor="let pageNumber of pageNumbers"
+            class="page-item"
+            [ngClass]="{ active: pagination && pagination.page === pageNumber }"
+          >
+            <a class="page-link" (click)="handleChangePage(pageNumber)">{{
+              pageNumber
+            }}</a>
+          </li>
+          <li
+            class="page-item"
+            [ngClass]="{
+              disabled: pagination && pagination.page === pagination.endPage
+            }"
+          >
+            <a
+              class="page-link"
+              (click)="handleChangePage(pagination.page + 1)"
+            >
+              <i class="fa fa-angle-right"></i>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="transport-payment-footer p-3 mb-0 card">
+        <div class="wrapper">
+          <div class="form-group">
+            <label for="total-parcel">จำนวนพัสดุรวม</label>
+            <input
+              type="text"
+              class="form-control"
+              id="total-parcel"
+              [(ngModel)]="totalQuantity"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="total-price">ราคารวม</label>
+            <input
+              type="text"
+              class="form-control"
+              id="total-price"
+              [(ngModel)]="totalPrice"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="btc-modal flex-center" *ngIf="isDisplayNoPendingPaymentChecked">
+    <div class="modal-dialog confirm-delete-modal-dialog">
+      <div class="modal-content align-items-center justify-content-center">
+        <div class="modal-header">
+          <h1>กรุณาเลือกรายการรอชำระเงินก่อนสร้างรายการชำระเงิน</h1>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="isDisplayNoPendingPaymentChecked = false"
+          >
+            ปิด
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

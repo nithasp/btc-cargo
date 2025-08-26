@@ -1,0 +1,404 @@
+<section id="create-bill">
+  <div class="create-bill-section1">
+    <div class="card container-card">
+      <div
+        class="card-header d-flex align-items-center justify-content-between"
+      >
+        <h2 class="card-title">สรุปรายการจัดส่ง</h2>
+        <div class="wrap-link">
+          <button
+            class="btn btn-primary text-white"
+            (click)="isDisplayAddAddress = true"
+          >
+            + เพิ่มที่อยู่จัดส่งใหม่/เพิ่มที่อยู่ใบเสร็จใหม่
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="wrapper-table overflow-x-auto">
+          <table class="table align-items-center">
+            <thead class="thead-light">
+              <tr>
+                <th class="th-parcel-number">เลขพัสดุ</th>
+                <th class="th-delivery-method">บริการจัดส่ง</th>
+                <th class="th-shipping-address">เลือกที่อยู่จัดส่ง</th>
+                <th class="th-billing-address">
+                  เลือกที่อยู่สำหรับใบเสร็จ/ใบส่งสินค้า
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="item">
+                <td class="td-parcel-number">
+                  <div class="quotation" *ngFor="let quotation of quotations">
+                    {{ quotation.lot.shopping_serial }}
+                  </div>
+                </td>
+                <td class="td-delivery-method align-top">
+                  <div class="btc-select-wrapper">
+                    <select
+                      class="select-delivery-method"
+                      (change)="handleDeliveryMethod($event.target.value)"
+                    >
+                      <option
+                        *ngFor="let carrier of carriers"
+                        [value]="carrier.id"
+                      >
+                        {{ carrier.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div
+                    class="btc-select-wrapper mt-3"
+                    *ngIf="isExpressDisplay && localDelivery.length > 0"
+                  >
+                    <select
+                      class="select-local-delivery-method"
+                      (change)="handleChangeExpress($event.target.value)"
+                    >
+                      <option
+                        *ngFor="let express of localDelivery"
+                        [value]="express.id"
+                      >
+                        {{ express.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div
+                    class="btc-select-wrapper mt-3"
+                    *ngIf="isExpressDisplay && localDelivery.length === 0"
+                  >
+                    <select class="select-local-delivery-method">
+                      <option>ที่อยู่นี้ไม่มีขนส่งในพื้นที่</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="td-shipping-address align-top">
+                  <div class="btc-select-wrapper">
+                    <select
+                      class="select-shipping-address"
+                      (change)="handleShippingAddress($event.target.value)"
+                    >
+                      <option
+                        *ngFor="let addr of addresses"
+                        [value]="addr.id"
+                        [selected]="addr.id === defaultShippingAddress.id"
+                      >
+                        {{ addr.name }} - {{ addr.person }} ({{
+                          addr.telephone
+                        }}) {{ addr.address }},
+                        {{ transformAddress(addr.district) }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td class="td-billing-address align-top">
+                  <div class="btc-select-wrapper">
+                    <select
+                      class="select-billing-address"
+                      (change)="handleBillingAddress($event.target.value)"
+                    >
+                      <option
+                        *ngFor="let addr of addresses"
+                        [value]="addr.id"
+                        [selected]="addr.id === defaultBillingAddress.id"
+                      >
+                        {{ addr.name }} - {{ addr.person }} ({{
+                          addr.telephone
+                        }}) {{ addr.address }},
+                        {{ transformAddress(addr.district) }}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="create-bill-section2 mt-5">
+    <div class="card container-card">
+      <div class="card-header">
+        <h2 class="card-title">สรุปรายการชำระเงิน</h2>
+      </div>
+      <div class="card-body">
+        <!-- <div class="container-filter mb-3">
+          <span>รหัส/คูปองส่วนลด</span>
+          <div class="d-flex">
+            <input
+              type="text"
+              class="form-control discount-code mr-2"
+              placeholder="กรอกรหัส/คูปองส่วนลด"
+            />
+            <button class="btn btn-primary">อัพเดท</button>
+          </div>
+        </div> -->
+      </div>
+      <div class="card-body">
+        <div class="wrapper-table overflow-x-auto">
+          <table class="table align-items-center">
+            <thead class="thead-light">
+              <tr>
+                <th class="th-list-summary">สรุปรายการ</th>
+                <th class="th-amount">จำนวนเงิน</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="item">
+                <td class="td-transportation-cost">ค่าขนส่ง</td>
+                <td class="td-amount">{{ totalDeliveryCost }} บาท</td>
+              </tr>
+              <tr class="item">
+                <td class="td-other-expenses">ค่าใช้จ่ายอื่นๆ</td>
+                <td class="td-amount">{{ totalOtherCost }} บาท</td>
+              </tr>
+              <tr class="item">
+                <td class="td-shipping-cost">ค่าจัดส่งสินค้า</td>
+                <td class="td-amount">0.00 บาท</td>
+              </tr>
+              <tr class="item">
+                <td class="td-other-expenses-in-shipping">
+                  ค่าใช้จ่ายอื่นๆ ในการจัดส่งสินค้า
+                </td>
+                <td class="td-amount">{{ totalThOtherCost }} บาท</td>
+              </tr>
+              <!-- <tr class="item">
+                <td class="td-parcel-storage-fee">ค่าจัดเก็บพัสดุ</td>
+                <td class="td-amount">{{ totalStorageCost }} บาท</td>
+              </tr> -->
+              <tr class="item">
+                <td class="td-discount">ส่วนลด</td>
+                <td class="td-amount">0.00 บาท</td>
+              </tr>
+              <tr class="item">
+                <th class="td-other-expenses">รวมยอดที่ต้องชำระ</th>
+                <th class="td-amount">{{ totalPrice }} บาท</th>
+              </tr>
+            </tbody>
+          </table>
+          <div class="message text-right p-4">
+            <p class="text-danger mb-2">
+              หลังจากยืนยันการสร้างบิลแล้ว กรุณารอให้สถานะบิลเปลี่ยนเป็น
+              "รอชำระเงิน" ก่อนทำการชำระยอด
+            </p>
+            <div class="wrap-btn">
+              <button (click)="onCancel()" class="btn btn-danger">
+                ยกเลิก
+              </button>
+              <button
+                class="btn btn-success confirm-bill"
+                (click)="createQuotation()"
+                [disabled]="isSubmitDisabled()"
+              >
+                ยืนยันการสร้างบิล
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btc-modal flex-center" *ngIf="isDisplayAddAddress">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add new address</h5>
+          <button
+            type="button"
+            class="close-btn"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="onCloseAddAddress()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-address-name">
+                  ชื่อที่อยู่
+                </label>
+                <input
+                  class="form-control"
+                  id="input-address-name"
+                  placeholder="ชื่อที่อยู่"
+                  type="text"
+                  maxlength="50"
+                  [(ngModel)]="newAddressName"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-name">
+                  ชื่อ-นามสกุล
+                </label>
+                <input
+                  class="form-control"
+                  id="input-name"
+                  placeholder="ชื่อ-นามสกุล"
+                  type="text"
+                  maxlength="50"
+                  [(ngModel)]="newReceiverName"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-phone-number">
+                  เบอร์โทรศัพท์
+                </label>
+
+                <input
+                  class="form-control"
+                  id="input-phone-number"
+                  placeholder="เบอร์โทรศัพท์"
+                  type="tel"
+                  pattern="[0-9]*"
+                  maxlength="15"
+                  [(ngModel)]="newTelephone"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <div
+                  class="custom-control custom-checkbox custom-control-inline"
+                >
+                  <input
+                    [(ngModel)]="isCheckAddJuristic"
+                    type="checkbox"
+                    id="customCheckboxAddJuristic"
+                    name="customCheckboxAddJuristic"
+                    class="custom-control-input"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customCheckboxAddJuristic"
+                    >นิติบุคคล</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-vat">
+                  เลขประจำตัวผู้เสียภาษี
+                </label>
+
+                <input
+                  class="form-control"
+                  id="input-vat"
+                  placeholder="เลขประจำตัวผู้เสียภาษี"
+                  type="text"
+                  [(ngModel)]="newVat"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-address-1">
+                  บ้านเลขที่ ซอย ถนน ฯลฯ
+                </label>
+                <input
+                  class="form-control"
+                  id="input-address-1"
+                  placeholder="บ้านเลขที่ ซอย ถนน ฯลฯ"
+                  type="text"
+                  maxlength="100"
+                  [(ngModel)]="newAddressLine1"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="select-new-address">
+                  ที่อยู่
+                </label>
+                <select-address
+                  [id]="'select-new-address'"
+                  (addressSelected)="onNewAddressSelected($event)"
+                ></select-address>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <div
+                  class="custom-control custom-checkbox custom-control-inline"
+                >
+                  <input
+                    [(ngModel)]="isCheckAddShippingAddress"
+                    type="checkbox"
+                    id="customCheckboxAddDefaultAddress"
+                    name="customCheckboxAddDefaultAddress"
+                    class="custom-control-input"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customCheckboxAddDefaultAddress"
+                    >ที่อยู่จัดส่ง</label
+                  >
+                </div>
+                <div
+                  class="custom-control custom-checkbox custom-control-inline"
+                >
+                  <input
+                    [(ngModel)]="isCheckAddBillingAddress"
+                    type="checkbox"
+                    id="customCheckboxAddRegisterAddress"
+                    name="customCheckboxAddRegisterAddress"
+                    class="custom-control-input"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customCheckboxAddRegisterAddress"
+                    >ที่อยู่ออกใบเสร็จ</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="onCloseAddAddress()"
+          >
+            ปิด
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            (click)="createAddress()"
+          >
+            บันทึก
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

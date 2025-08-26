@@ -1,0 +1,75 @@
+.btc-select-wrapper.status {
+  min-width: 125px;
+  font-size: 14px;
+}
+td {
+  .space-3-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    span:nth-child(1) {
+      text-align: left;
+    }
+    span:nth-child(2) {
+      text-align: center;
+    }
+    span:nth-child(3) {
+      text-align: right;
+    }
+  }
+}
+input.discount {
+  height: 35px;
+}
+@media (max-width: 992px) {
+  .container-filter {
+    display: block !important;
+    h2 {
+      margin-bottom: 15px !important;
+    }
+    .btc-select-wrapper select {
+      width: 100%;
+    }
+  }
+  .shipping-price {
+    .space-3-columns {
+      grid-template-columns: 85px 1fr 1fr;
+      gap: 10px;
+    }
+  }
+  .rate {
+    .space-3-columns {
+      grid-template-columns: 50px 1fr 1fr;
+      gap: 10px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper-table {
+    margin-top: 50px;
+  }
+  .container-filter {
+    .wrapper-input {
+      display: block !important;
+      h2 {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .no-order,
+      .export-date,
+      .status {
+        display: block !important;
+        margin-bottom: 10px !important;
+      }
+      .status {
+        span {
+          display: block !important;
+          margin-bottom: 10px !important;
+        }
+        .dropdown {
+          margin-left: 0 !important;
+        }
+      }
+    }
+  }
+}

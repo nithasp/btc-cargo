@@ -1,0 +1,30 @@
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title">สร้างการชำระใหม่</h2>
+  </div>
+  <div class="card-body">
+    <h3>เลือกช่องทางการชำระ</h3>
+    <div class="payment-container">
+      <div class="payment-method-container">
+        <div
+          class="payment-method"
+          [ngClass]="{ activePaymentMethod: paymentMethod === 'bank' }"
+          (click)="onSelectPaymenyMethod('bank')"
+        >
+          ชำระผ่านธนาคาร
+        </div>
+        <div
+          class="payment-method"
+          [ngClass]="{ activePaymentMethod: paymentMethod === 'alipay' }"
+          (click)="onSelectPaymenyMethod('alipay')"
+        >
+          ฝากจ่ายผ่าน Alipay บริษัท
+        </div>
+      </div>
+      <div class="payment-details">
+        <alipay-payment *ngIf="paymentMethod === 'alipay'"></alipay-payment>
+        <bank-payment *ngIf="paymentMethod === 'bank'"></bank-payment>
+      </div>
+    </div>
+  </div>
+</div>

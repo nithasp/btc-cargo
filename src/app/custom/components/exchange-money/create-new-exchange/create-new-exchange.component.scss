@@ -1,0 +1,67 @@
+.card-header {
+  background-color: #ca3342fc;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 550px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.card-title {
+  color: #fff;
+  margin-bottom: 0;
+}
+
+.card-body {
+  padding: 30px 50px;
+}
+
+.payment-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+
+  @media (min-width: 750px) {
+    flex-direction: row;
+  }
+}
+
+.payment-method-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.payment-method {
+  padding: 1rem 3rem;
+  margin-top: 1rem;
+  color: white;
+  background-color: #c4c4c4;
+  white-space: nowrap;
+
+  @media (min-width: 750px) {
+    margin-top: 0;
+    flex-direction: row;
+  }
+}
+
+.activePaymentMethod {
+  background-color: #ca3342fc;
+}
+
+.payment-details {
+  display: flex;
+  flex: 3;
+  flex-direction: column;
+  margin-left: 2rem;
+  padding: 1rem 3rem;
+}
+
+a {
+  color: #5e72e4;
+}

@@ -1,0 +1,180 @@
+#cart {
+  input[type="checkbox"],
+  button,
+  i {
+    cursor: pointer;
+  }
+  .checkbox-shop {
+    width: 15px;
+    height: 15px;
+  }
+  .thead {
+    .th {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #8898aa;
+      letter-spacing: 1px;
+      border: 1px solid #e9ecef;
+      border-top: none;
+      background-color: #f6f9fc;
+      min-height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .tbody {
+    .td {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8125rem;
+      border: 1px solid #e9ecef;
+      padding: 20px;
+    }
+    .td-quantity {
+      input,
+      button {
+        border: 1px solid rgba(0, 0, 0, 0.09);
+        background: transparent;
+        outline: none;
+        color: black;
+      }
+      button:disabled,
+      input:disabled {
+        color: rgba(0, 0, 0, 0.3);
+        cursor: not-allowed !important;
+      }
+      input {
+        height: 32px;
+        width: 50px;
+        text-align: center;
+      }
+      button {
+        height: 32px;
+        width: 32px;
+        span {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+      .btn:not(:last-child) {
+        margin-right: 0;
+      }
+    }
+    .checkbox-mobile {
+      display: none;
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 15px;
+      height: 15px;
+    }
+  }
+  .select-all {
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+  }
+  .container-shop {
+    .shop {
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 8px;
+      background: white;
+    }
+
+    .tbody {
+      .td-image {
+        .product-image {
+          width: 70px;
+          height: 70px;
+        }
+      }
+      .td-quantity {
+        button {
+          padding: 10px;
+          cursor: pointer;
+          span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+        .btn:not(:last-child) {
+          margin-right: 0;
+        }
+      }
+      .td-menu {
+        i {
+          color: red;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .calculator {
+    position: sticky;
+    bottom: 0;
+    box-shadow: 0 0 2rem 0 rgb(136 152 170 / 35%);
+    .calculator-item {
+      .item {
+        display: grid;
+        grid-template-columns: auto 70px 50px;
+        gap: 10px;
+      }
+    }
+  }
+  .modal-content {
+    height: auto;
+  }
+
+  @media (max-width: 992px) {
+    .thead {
+      display: none;
+    }
+    .td-checkbox {
+      display: none !important;
+    }
+    .product {
+      margin-bottom: 30px !important;
+    }
+    .product-image {
+      width: 10vw !important;
+      height: 10vw !important;
+    }
+    .checkbox-mobile {
+      display: block !important;
+    }
+  }
+
+  @media (max-width: 650px) {
+    .calculator {
+      grid-template-columns: auto 1fr;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .td {
+      padding: 15px !important;
+    }
+    .td-quantity {
+      input {
+        width: 8vw !important;
+      }
+      button {
+        width: 5vw !important;
+      }
+    }
+    .wrap-btn {
+      a {
+        font-size: 0.775rem !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,166 @@
+<section>
+  <div class="card parcel-list-card">
+    <div class="card-header justify-content-between">
+      <h2 class="card-title">ติดตามรายการพัสดุ</h2>
+      <a
+        class="btn btn-icon btn-3 btn-primary create-button"
+        type="button"
+        [routerLink]="['/web/create-parcel']"
+      >
+        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+        <span class="btn-inner--text">สร้างรายการพัสดุ</span>
+      </a>
+    </div>
+    <div class="card-body">
+      <div *ngIf="!isEmptyDetails()">
+        <div class="title-section">
+          <h2>รายการพัสดุ</h2>
+          <div class="filter-section">
+            <div class="title-with-input">
+              <p class="text-nowrap mr-3">เลขพัสดุ</p>
+              <input
+                type="text"
+                class="form-control mr-3 input-text w-auto"
+                placeholder=""
+                maxlength="50"
+              />
+            </div>
+            <div class="title-with-input">
+              <p class="text-nowrap mr-3">วันที่ออกจากจีน</p>
+              <div class="form-group mr-3 mb-0">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="ni ni-calendar-grid-58"></i>
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder=""
+                    class="form-control"
+                    bsDatepicker
+                    [bsValue]="bsValue"
+                    [bsConfig]="{
+                      isAnimated: true,
+                      containerClass: 'theme-red'
+                    }"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="title-with-input">
+              <p class="text-nowrap mr-3">สถานะ</p>
+              <div class="dropdown" dropdown>
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  dropdownToggle
+                >
+                  {{ status }}
+                </button>
+                <div
+                  aria-labelledby="dropdownMenuButton"
+                  *dropdownMenu
+                  class="dropdown-menu"
+                >
+                  <a class="dropdown-item" (click)="status = 'เข้าโกดังจีน'"
+                    >เข้าโกดังจีน</a
+                  >
+                  <a class="dropdown-item" (click)="status = 'ออกจีน'"
+                    >ออกจีน</a
+                  >
+                  <a class="dropdown-item" (click)="status = 'ถึงไทย'"
+                    >ถึงไทย</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th class="col-3">เลขพัสดุ</th>
+                <th class="col-1">ประเภทการขนส่ง</th>
+                <th class="col-2">ตีลังไม้</th>
+                <th class="col-2">ดูรูปถ่าย</th>
+                <th class="col-2">QC</th>
+                <th class="col-2">หมายเหตุ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of details">
+                <td>
+                  {{ item.shopping_serial }}
+                </td>
+                <td class="text-center">
+                  {{ getDeliveryTypeLabel(item.delivery_type) }}
+                </td>
+                <td class="text-center">
+                  {{ getBoxLabel(item.shipping_with_box) }}
+                </td>
+                <td class="text-center">
+                  {{ getPictureTypeLabel(item.required_picture) }}
+                </td>
+                <td class="text-center">
+                  {{ getQcTypeLabel(item.qc) }}
+                </td>
+                <td>
+                  {{ renderText(item.remarks) }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="pagination?.records > 10" class="d-flex justify-content-end mt-4">
+          <ul class="pagination">
+            <li
+              class="page-item"
+              [ngClass]="{
+                disabled: pagination && pagination.page === pagination.startPage
+              }"
+            >
+              <a
+                class="page-link"
+                (click)="handleChangePage(pagination.page - 1)"
+              >
+                <i class="fa fa-angle-left"></i>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+            <li
+              *ngFor="let pageNumber of pageNumbers"
+              class="page-item"
+              [ngClass]="{
+                active: pagination && pagination.page === pageNumber
+              }"
+            >
+              <a class="page-link" (click)="handleChangePage(pageNumber)">{{
+                pageNumber
+              }}</a>
+            </li>
+            <li
+              class="page-item"
+              [ngClass]="{
+                disabled: pagination && pagination.page === pagination.endPage
+              }"
+            >
+              <a
+                class="page-link"
+                (click)="handleChangePage(pagination.page + 1)"
+              >
+                <i class="fa fa-angle-right"></i>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div *ngIf="isEmptyDetails()">
+        <h3 class="text-center p-3">ไม่มีรายการพัสดุ</h3>
+      </div>
+    </div>
+  </div>
+</section>

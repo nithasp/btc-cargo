@@ -1,0 +1,67 @@
+<div>
+  <div *ngIf="formState === 'selectAccount'">
+    <h4 class="mb-2">กรุณาใส่รายละเอียดบัญชีธนาคารที่ต้องการให้ชำระเงิน</h4>
+    <div class="custom-control custom-radio custom-control-inline">
+      <input
+        type="radio"
+        id="customRadioInputForm"
+        name="customRadioInputForm"
+        class="custom-control-input"
+        [(ngModel)]="form"
+        value="input"
+        (click)="handleChangeFormState('input')"
+      />
+      <label class="custom-control-label" for="customRadioInputForm"
+        >ฉันสามารถกรอกรายละเอียดบัญชีได้</label
+      >
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+      <input
+        type="radio"
+        id="customRadioImageForm"
+        name="customRadioImageForm"
+        class="custom-control-input"
+        [(ngModel)]="form"
+        value="image"
+        (click)="handleChangeFormState('image')"
+      />
+      <label class="custom-control-label" for="customRadioImageForm"
+        >ฉันต้องการแจ้งรายละเอียดบัญชีเป็นไฟล์ภาพ</label
+      >
+    </div>
+    <div *ngIf="form === 'input'">
+      <h4 class="mt-3">กรุณากรอกข้อมูลบัญชีธนาคาร</h4>
+      <h4 class="mt-3">ชื่อบัญชี (ภาษาจีน)</h4>
+      <input
+        type="text"
+        class="form-control mt-2"
+        placeholder="ชื่อบัญชี"
+        [(ngModel)]="accountName"
+      />
+      <h4 class="mt-2">เลขบัญชี</h4>
+      <input
+        type="text"
+        class="form-control mt-2"
+        placeholder="เลขบัญชี"
+        [(ngModel)]="accountNumber"
+      />
+    </div>
+    <div *ngIf="form === 'image'" class="mt-3 mb-3">
+      <input type="file" (change)="handleFileInput($event.target.files)" />
+    </div>
+    <div class="button-container">
+      <button class="btn btn-danger mr-2" type="button" (click)="onCancel()">
+        ยกเลิก
+      </button>
+      <button
+        class="btn btn-primary"
+        type="button"
+        (click)="handleNextFormState()"
+        [disabled]="isDisabledNextButton()"
+      >
+        ดำเนินการต่อ
+      </button>
+    </div>
+  </div>
+  <payment-details *ngIf="formState === 'paymentDetails'"> </payment-details>
+</div>

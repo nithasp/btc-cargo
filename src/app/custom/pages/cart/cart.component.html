@@ -1,0 +1,216 @@
+<section id="cart" class="mt--3">
+  <div class="inner">
+    <ng-container *ngIf="this.cartItems.length === 0">
+      <div class="no-item flex-center text-center vh-100">
+        <div class="wrapper">
+          <img
+            src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/cart/9bdd8040b334d31946f49e36beaf32db.png"
+          />
+          <h2>ไม่มีสินค้าในรถเข็น</h2>
+          <a
+            [routerLink]="['/web/find-product']"
+            class="btn btn-primary mt-3 d-block"
+          >
+            กลับไปซื้อของ
+          </a>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="container-shop" *ngIf="this.cartItems.length > 0">
+      <div
+        class="select-all card d-flex align-items-center flex-row bg-white p-3 mb-1"
+      >
+        <input type="checkbox" (click)="selectAllItems($event.target)" />
+        <span>เลือกทั้งหมด</span>
+      </div>
+      <ng-container *ngFor="let item of cartItems">
+        <div class="shop card my-3 p-3">
+          <div class="shop-header mb-1">
+            <input
+              type="checkbox"
+              class="checkbox-shop"
+              (click)="selectAllShopItems($event.target, item)"
+            />
+            <span class="shop-name ml-2">ร้านค้า: {{ item.shop_name }}</span>
+          </div>
+          <div class="table">
+            <div class="thead text-center">
+              <div class="row m-0">
+                <div class="col-2">
+                  <div class="row h-100">
+                    <div class="col-lg-4 border-left-0 th th-checkbox">
+                      เลือก
+                    </div>
+                    <div class="col-lg-8 th th-image">รูป</div>
+                  </div>
+                </div>
+                <div class="col-10">
+                  <div class="row h-100">
+                    <div class="col-lg-3 th th-title">ชื่อสินค้า</div>
+                    <div class="col-lg-2 th th-category">สี/ไซส์</div>
+                    <div class="col-lg-2 th th-price">ราคาต่อชิ้น</div>
+                    <div class="col-lg-2 th th-quantity">จำนวนสินค้า</div>
+                    <div class="col-lg-2 th th-total-price">รวมราคา</div>
+                    <div class="col-lg-1 border-right-0 th th-menu">
+                      ลบสินค้า
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tbody text-center">
+              <div
+                class="row m-0 product"
+                *ngFor="let product of item.products"
+              >
+                <div class="col-2">
+                  <div class="row h-100">
+                    <div class="col-12 col-lg-4 td td-checkbox">
+                      <input
+                        type="checkbox"
+                        (click)="selectItem(product)"
+                        [checked]="product.selected"
+                      />
+                    </div>
+                    <div class="col-12 col-lg-8 td td-image">
+                      <input
+                        type="checkbox"
+                        class="checkbox-mobile"
+                        (click)="selectItem(product)"
+                        [checked]="product.selected"
+                      />
+                      <img
+                        src="{{
+                          product.uploads
+                            ? product.uploads.file
+                            : 'assets/img/mockup-img/product-image-placeholder.jpg'
+                        }}"
+                        class="product-image"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-10">
+                  <div class="row h-100">
+                    <div class="col-12 col-lg-3 td td-title">
+                      {{ product.name }}
+                    </div>
+                    <div class="col-12 col-lg-2 td td-category">
+                      {{
+                        product.variants.id === -1
+                          ? "-"
+                          : product.variants.display_name
+                      }}
+                    </div>
+                    <div class="col-3 col-lg-2 td td-price">
+                      ¥{{
+                        product.variants.price ? product.variants.price : product.price
+                      }}
+                    </div>
+                    <div class="col-4 col-lg-2 td td-quantity">
+                      <div class="wrap-btn flex-center">
+                        <button
+                          (click)="decrementItem(product)"
+                          class="flex-center"
+                          [disabled]="isButtonDisabled"
+                        >
+                          -
+                        </button>
+                        <input
+                          value="{{ product.quantity }}"
+                          type="text"
+                          (click)="currentInputQuantity = $event.target.value"
+                          (keypress)="
+                            ($event.charCode >= 48 && $event.charCode < 58)
+                          "
+                          (focusout)="
+                            focusOutUpdate($event.target.value, product)
+                          "
+                          [disabled]="isButtonDisabled"
+                        />
+                        <button
+                          (click)="incrementItem(product)"
+                          class="flex-center"
+                          [disabled]="isButtonDisabled"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col-3 col-lg-2 td td-total-price">
+                      ¥{{ product.totalPrice.toFixed(2) }}
+                    </div>
+                    <div class="col-2 col-lg-1 td td-menu">
+                      <i
+                        class="fas fa-trash"
+                        (click)="openConfirmDeleteModal(product, item)"
+                      ></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div class="calculator text-dark p-3 card">
+        <div class="calculator-item text-right">
+          <div class="item total-quantity">
+            <span>จำนวนสินค้ารวม</span>
+            <span>{{ this.grandTotalQuantity || 0 }}</span>
+            <span>ชิ้น</span>
+          </div>
+          <div class="item total-price-yuan">
+            <span>ราคาสินค้ารวม (หยวน)</span>
+            <span>{{ totalPrice.toFixed(2) || 0 }}</span>
+            <span>หยวน</span>
+          </div>
+          <div class="item rate">
+            <span>เรท</span>
+            <span>{{ rate }}</span>
+          </div>
+          <div class="item total-price-baht">
+            <span>ราคาสินค้ารวม (บาท)</span>
+            <span>{{ (totalPrice * rate).toFixed(2) || 0 }}</span>
+            <span>บาท</span>
+          </div>
+          <div class="wrap-btn mt-2">
+            <a [routerLink]="'/web/find-product'" class="btn btn-danger"
+              >กลับไปหน้าสั่งซื้อสินค้า</a
+            >
+            <a href="javascript:void(0)" class="btn btn-primary"
+              >สร้างออเดอร์</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="btc-modal flex-center" *ngIf="isModalConfirmDisplay">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">ต้องการจะลบสินค้าชิ้นนี้หรือไม่</h5>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="closeConfirmDeleteModal()"
+          >
+            ยกเลิก
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            (click)="deleteItem()"
+          >
+            ยืนยัน
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

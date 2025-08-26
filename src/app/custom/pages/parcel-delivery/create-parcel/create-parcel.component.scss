@@ -1,0 +1,96 @@
+.card-header {
+  background-color: #ca3342fc;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 450px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.card-title {
+  color: #fff;
+  margin-bottom: 0;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.parcel-card {
+  margin: 0px 20px;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+}
+
+.create-button {
+  margin-top: 0.5rem;
+
+  @media (min-width: 450px) {
+    margin-top: 0;
+  }
+}
+
+.parcel-card-footer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+
+  @media (min-width: 690px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+.footer-button {
+  width: 100%;
+  margin-top: 1rem;
+
+  @media (min-width: 690px) {
+    width: 110px;
+    margin-top: 0;
+  }
+}
+
+.remove-button {
+  color: #8898aa;
+}
+
+.unset-min-width {
+  min-width: unset !important;
+}
+
+.overflow-x{
+  overflow-x: auto;
+
+  @media (min-width: 960px) {
+    overflow-x: unset;
+  }  
+}
+
+
+.min-200 {
+  min-width: 200px;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+th {
+  text-align: center;
+}
+
+th:first-child,
+th:last-child {
+  min-width: 200px;
+  white-space: nowrap;
+}

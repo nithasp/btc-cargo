@@ -1,0 +1,74 @@
+#create-bill {
+  button:disabled {
+    cursor: not-allowed;
+  }
+  .container-filter {
+    .discount-code {
+      max-width: 300px;
+    }
+  }
+  .td-parcel-number {
+    width: 500px;
+  }
+  .select-delivery-method {
+    width: auto;
+  }
+  .select-billing-address,
+  .select-shipping-address {
+    min-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dropdown-item {
+    white-space: normal;
+  }
+  .confirm-bill.disabled {
+    color: purple;
+  }
+  @media (max-width: 992px) {
+    .select-billing-address,
+    .select-shipping-address {
+      width: 250px;
+    }
+    .select-local-delivery-method {
+      width: 100%;
+    }
+    .select-province,
+    .select-express-list {
+      width: 100%;
+    }
+  }
+  @media (max-width: 576px) {
+    .create-bill-section1 {
+      .card-header {
+        display: block !important;
+        .btn {
+          margin-bottom: 10px !important;
+          width: 100%;
+        }
+        .btn:last-child {
+          margin-bottom: 0px !important;
+        }
+      }
+      h2.card-title {
+        margin-bottom: 15px !important;
+      }
+    }
+    .create-bill-section2 {
+      .message {
+        .btn {
+          display: block;
+          width: 100%;
+          margin-bottom: 10px !important;
+        }
+        .btn:last-child {
+          margin-bottom: 0px !important;
+        }
+      }
+    }
+  }
+}
+
+.btc-modal .modal-dialog .modal-content {
+  height: 72vh;
+}

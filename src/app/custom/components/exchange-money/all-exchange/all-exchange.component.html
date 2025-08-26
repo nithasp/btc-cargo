@@ -1,0 +1,126 @@
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title">รายการแลกเงินทั้งหมด</h2>
+    <div>
+      <button
+        class="btn btn-icon btn-3 btn-primary mr-3"
+        [routerLink]="['/web/wallets']"
+      >
+        <span class="btn-inner--icon"><i class="fas fa-wallet"></i></span>
+        <span class="btn-inner--text">กระเป๋าเงินหยวน</span>
+      </button>
+      <button
+        class="btn btn-icon btn-3 btn-primary"
+        (click)="createNewExchange()"
+        [disabled]="!isServiceAvailable"
+      >
+        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+        <span class="btn-inner--text">สร้างรายการใหม่</span>
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="text-right">
+      <p>
+        ดู
+        <a
+          href="https://www.bestthaichina.com/downloads/how_to_use_hub_exchange.pdf"
+          target="_blank"
+          >วิธีใช้ระบบฝากจ่าย</a
+        >
+      </p>
+      <p>
+        ดู
+        <a
+          href="https://www.bestthaichina.com/downloads/ขั้นตอนการขอคืนเงิน.pdf"
+          target="_blank"
+          >ขั้นตอนการขอคืนเงิน</a
+        >
+      </p>
+      <p>
+        กรุณายืนยันตัว Alipay ดู
+        <a
+          href="https://bestthaichina.com/downloads/how_to_verify_alipay.pdf"
+          target="_blank"
+          >วิธียืนยันตัว</a
+        >
+      </p>
+      <p>
+        ไม่สามารถสร้างการชำระเงินใหม่ได้ในขณะนี้
+        <a href="faq#exchange" target="_blank">ดูข้อมูลเพิ่มเติม</a>
+      </p>
+    </div>
+    <div *ngIf="!isEmptyDetails()">
+      <div class="overflow-x-auto">
+        <table class="table align-items-center table-flush mt-4">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">เลขที่รายการ</th>
+              <th scope="col">วัน-เวลาที่สร้าง</th>
+              <th scope="col">ยอดเงินที่แลก</th>
+              <th scope="col">ยอดเงินที่ต้องชำระ</th>
+              <th scope="col">สถานะ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data">
+              <td>{{ item.name }}</td>
+              <td>{{ getDateTimeText(item.create_date) }}</td>
+              <td>{{ item.quantity_with_symbol }}</td>
+              <td>{{ item.thai_amount_with_symbol }}</td>
+              <td>
+                <p>{{ item.status }}</p>
+                <a
+                  *ngIf="item.state === 'wait'"
+                  href="javascript:void()"
+                  [routerLink]="['/web/payment-notice', item.id]"
+                  >แจ้งชำระเงิน</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="pagination?.records > 10" class="d-flex justify-content-end mt-4">
+        <ul class="pagination">
+          <li
+            class="page-item"
+            [ngClass]="{
+              disabled: pagination && pagination.page === pagination.startPage
+            }"
+          >
+            <a class="page-link" (click)="handleChangePage(pagination.page - 1)">
+              <i class="fa fa-angle-left"></i>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <li
+            *ngFor="let pageNumber of pageNumbers"
+            class="page-item"
+            [ngClass]="{
+              active: pagination && pagination.page === pageNumber
+            }"
+          >
+            <a class="page-link" (click)="handleChangePage(pageNumber)">{{
+              pageNumber
+            }}</a>
+          </li>
+          <li
+            class="page-item"
+            [ngClass]="{
+              disabled: pagination && pagination.page === pagination.endPage
+            }"
+          >
+            <a class="page-link" (click)="handleChangePage(pagination.page + 1)">
+              <i class="fa fa-angle-right"></i>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div *ngIf="isEmptyDetails()">
+      <h3 class="text-center p-3">ไม่มีรายการแลกเงิน</h3>
+    </div>
+  </div>
+</div>

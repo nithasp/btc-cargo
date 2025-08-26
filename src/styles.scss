@@ -1,0 +1,257 @@
+@import url(./assets/fonts/fonts.css);
+
+:root {
+  --btc-color: #ca3342fc;
+  --navbarAdminMarginBottom: 40px;
+  --navbarAdminMarginBottomMinus: -40px;
+  --thMainBackground: #f6f9fc;
+}
+
+body {
+  font-family: "Kanit-Light" !important;
+  letter-spacing: 0.3px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li {
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+img {
+  object-fit: cover;
+}
+input::placeholder,
+textarea::placeholder {
+  color: #838b91 !important;
+}
+
+// Helper CSS
+.inner {
+  width: 95%;
+  margin: 0 auto;
+}
+.container-card {
+  margin: 0 20px;
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.block {
+  display: block;
+}
+.bold {
+  font-weight: bold !important;
+}
+.btn {
+  transform: translateY(-1px) !important;
+}
+.card-header {
+  background-color: var(--btc-color) !important;
+}
+.overflow-x-auto {
+  overflow-x: auto;
+}
+h2.card-title {
+  color: white;
+}
+
+table td,
+table th {
+  font-size: 0.85rem !important;
+  text-align: center;
+  border: 1px solid #e1e6ef !important;
+}
+
+table tr:first-child th {
+  border-top: 0 !important;
+}
+table tr:last-child td {
+  border-bottom: 0 !important;
+}
+table tr td:first-child,
+table tr th:first-child {
+  border-left: 0 !important;
+}
+table tr td:last-child,
+table tr th:last-child {
+  border-right: 0 !important;
+}
+
+.t-footer {
+  th {
+    font-size: 14px !important;
+  }
+}
+
+.btc-modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  .modal-header {
+    align-items: center;
+  }
+  .modal-dialog {
+    min-width: 500px;
+    max-width: 800px;
+    width: 800px;
+    padding: 0 50px;
+
+    .modal-content {
+      height: 80vh;
+      overflow-y: auto;
+    }
+    .close-btn {
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 40px;
+      margin-top: -5px;
+    }
+  }
+}
+@media (max-width: 450px) {
+  .btc-modal .modal-dialog {
+    min-width: 400px;
+  }
+}
+// Timepicker
+.bs-timepicker-field {
+  width: 60px !important;
+}
+.bs-chevron {
+  cursor: pointer;
+}
+.timepicker {
+  td {
+    border: none !important;
+  }
+}
+// Dropzone
+ngx-dropzone {
+  width: 150px !important;
+  height: 150px !important;
+}
+ngx-dropzone-image-preview {
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+@media (min-width: 1200px) {
+  body:not(.g-sidenav-show) .navbar-brand {
+    display: none !important;
+  }
+  body.g-sidenav-pinned .navbar-brand {
+    display: flex !important;
+  }
+}
+
+// Datepicker Background Color
+.theme-red .bs-datepicker-head {
+  background-color: #ca3342fc !important;
+}
+
+// Select2
+.select2-container--default .select2-selection--single {
+  height: 48px !important;
+  border-color: #dee2e6 !important;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field,
+.select2-dropdown {
+  border-color: #ced4da !important;
+}
+
+.select2-selection__rendered {
+  padding: 0 !important;
+}
+
+.select2-selection__placeholder {
+  font-size: 0.875rem !important;
+  font-weight: 400;
+  color: #adb5bd !important;
+}
+
+.select2-container {
+  z-index: 10000;
+}
+
+// BTC Custom Select
+.btc-select-wrapper {
+  position: relative;
+  caret-color: transparent;
+}
+.btc-select-wrapper select {
+  width: 100%;
+  color: #212529;
+  background-color: #f7fafc;
+  border-color: transparent;
+  box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+  padding: 0.625rem 1.25rem 0.625rem 1rem;
+  outline: none;
+  font-weight: 600;
+  cursor: pointer;
+
+  /* Hide Default Arrow */
+  appearance: none;
+}
+.btc-select-wrapper:after {
+  content: "";
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  right: 10px;
+
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  border-top: 0.35em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+}
+@media (max-width: 992px) {
+  .btc-select-wrapper select {
+    width: auto;
+  }
+}
+
+/* CSS Only Safari */
+@media not all and (min-resolution: 0.001dpcm) {
+  button,
+  [type="button"],
+  [type="reset"],
+  [type="submit"] {
+    -webkit-appearance: none !important;
+  }
+
+  .btc-select-wrapper select {
+    -webkit-appearance: initial;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  label,
+  .btn,
+  .badge,
+  .heading,
+  .text-sm {
+    letter-spacing: -0.5px !important;
+  }
+}

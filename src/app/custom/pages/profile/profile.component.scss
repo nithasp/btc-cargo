@@ -1,0 +1,114 @@
+#profile {
+  margin-top: var(--navbarAdminMarginBottomMinus);
+}
+.header {
+  min-height: 500px;
+}
+#user-information {
+  input,
+  textarea {
+    color: #030303;
+  }
+  .update-profile-modal-box {
+    display: none;
+  }
+  .update-profile-modal-box.active {
+    display: block;
+  }
+  .update-profile-modal-box.sticky {
+    position: sticky;
+    top: 10px;
+    z-index: 1;
+  }
+  .close-modal-box {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+    i {
+      cursor: pointer;
+      color: white;
+      font-size: 20px;
+    }
+  }
+  .parcel-number-mobile {
+    display: none;
+  }
+}
+
+#user {
+  .card-profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+    gap: 10px;
+    div {
+      margin: 0;
+      .heading {
+        font-size: 0.8rem;
+      }
+    }
+  }
+  .user-form {
+    .form-group {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.social-connect {
+  .social-info {
+    display: flex;
+    align-items: center;
+  }
+  .user-thumbnail {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+}
+
+#user-form1 {
+  .input-group-birthdate {
+    box-shadow: 0 3px 2px rgb(233 236 239 / 5%) !important;
+    border: 1px solid #dee2e6 !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .parcel-number-mobile {
+    display: block !important;
+  }
+  .parcel-number-desktop {
+    display: none;
+  }
+}
+
+.address {
+  width: 100%;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  margin-bottom: 20px;
+  padding: 20px 15px;
+}
+
+.config-address {
+  color: #adb5bd;
+}
+
+.modal-body {
+  padding: 0 1.5rem;
+}
+
+.confirm-delete-modal-dialog {
+  width: 300px;
+}
+
+.confirm-delete-modal-content {
+  height: 25vh !important;
+}
+
+.fail-delete-modal-content {
+  height: 40vh !important;
+}

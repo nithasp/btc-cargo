@@ -1,0 +1,125 @@
+<section id="payment-notice" *ngIf="bill">
+  <div class="payment-notice-section1 card container-card">
+    <div class="card-header">
+      <span class="text-white">แจ้งชำระเงิน</span>
+    </div>
+    <div class="card-body">
+      <h4 class="mb-2">กรุณาโอนเงินเข้าที่</h4>
+      <div class="card information px-3 py-2 mb-0 text-white">
+        <div class="item">
+          <span>ธนาคาร: </span>
+          <span>{{
+            getPaymentAccount(bill.service_type).bankName
+          }}</span>
+        </div>
+        <div class="item">
+          <span>สาขา: </span>
+          <span>{{
+            getPaymentAccount(bill.service_type).branchName
+          }}</span>
+        </div>
+        <div class="item">
+          <span>ชื่อบัญชี: </span>
+          <span>{{
+            getPaymentAccount(bill.service_type).accountName
+          }}</span>
+        </div>
+        <div class="item">
+          <span>ประเภทบัญชี: </span>
+          <span>{{
+            getPaymentAccount(bill.service_type).accountTypeName
+          }}</span>
+        </div>
+        <div class="item">
+          <span>เลขที่บัญชี: </span>
+          <span>{{
+            getPaymentAccount(bill.service_type).accountNumber
+          }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="payment-notice-section2 card container-card bill">
+    <div class="card-header">
+      <span class="text-white">เลขที่บิล #{{ bill.name }}</span>
+    </div>
+    <div class="card-body">
+      <div class="item item1">
+        <span>ยอดที่ต้องชำระเงินทั้งหมด: </span>
+        <span class="text-green">{{ bill.amount_currency }} บาท</span>
+      </div>
+      <div class="item item2">
+        <span class="text-red text-underline"
+          >กรุณาชำระเงินตามช่องทางการชำระเงินที่แสดงในหน้านี้เท่านั้น
+          และกรอกรายละเอียดวัน เวลาที่ชำระให้ตรงกับหลักฐานการโอน</span
+        >
+      </div>
+      <div class="item item3">
+        <span
+          >ยอดเงินที่โอน (ตามสลิป)<span class="text-red">* ตัวเลขเท่านั้น</span>
+        </span>
+        <input
+          type="number"
+          min="1"
+          class="form-control"
+          [(ngModel)]="amountPay"
+          (focusout)="checkValue()"
+          (keydown)="handleAmountPay($event)"
+        />
+      </div>
+      <div class="item item4">
+        <span>วันที่โอนยอดเงิน (ตามสลิป)<span class="text-red">*</span></span>
+        <input
+          type="text"
+          id="input-payment-date"
+          placeholder=""
+          class="form-control"
+          bsDatepicker
+          [bsConfig]="{
+            isAnimated: true,
+            containerClass: 'theme-red',
+            dateInputFormat: 'YYYY-MM-DD'
+          }"
+          [bsValue]="paymentDate"
+          [(ngModel)]="paymentDate"
+        />
+      </div>
+      <div class="item item5 timepicker">
+        <span
+          >เวลาที่โอนยอดเงิน (ตามสลิป)<span class="text-red"
+            >* รูปแบบ 24 ชั่วโมง</span
+          >
+        </span>
+        <timepicker
+          [(ngModel)]="paymentTime"
+          [showMeridian]="isMeridian"
+          hoursPlaceholder="ชั่วโมง"
+          minutesPlaceholder="นาที"
+        ></timepicker>
+      </div>
+      <div class="item item6">
+        <span>หลักฐานการชำระเงิน*</span>
+        <span class="block my-2"></span>
+        <div class="dropzone-wrapper">
+          <ngx-dropzone (change)="onSelectFile($event)" [multiple]="false">
+            <ngx-dropzone-label>Drop files here to upload</ngx-dropzone-label>
+            <ngx-dropzone-image-preview
+              ngProjectAs="ngx-dropzone-preview"
+              *ngFor="let f of files"
+              [file]="f"
+              [removable]="true"
+              (removed)="onRemoveFile(f)"
+            >
+              <ngx-dropzone-label
+                >{{ f.name }} ({{ f.type }})</ngx-dropzone-label
+              >
+            </ngx-dropzone-image-preview>
+          </ngx-dropzone>
+        </div>
+      </div>
+      <div class="confirm mt-2">
+        <button class="btn btn-primary" (click)="billSubmit()">บันทึก</button>
+      </div>
+    </div>
+  </div>
+</section>
